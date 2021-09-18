@@ -19,3 +19,8 @@ register(
     entry_point='envs.mountain_car:MagellanSparseContinuousMountainCarEnv',
     max_episode_steps=500
 )
+
+
+register(id='RealMax-v0',
+    entry_point='envs.real_env:MyEnv'
+)

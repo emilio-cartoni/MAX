@@ -41,6 +41,7 @@ def config():
     random_exploration = False
     exploitation = False
     ant_coverage = False
+    real_coverage = False
 
 
 # noinspection PyUnusedLocal
@@ -50,9 +51,9 @@ def env_config():
     n_eval_episodes = 3                             # number of episodes evaluated for each task
     env_noise_stdev = 0                             # standard deviation of noise added to state
 
-    n_warm_up_steps = 256                           # number of steps to populate the initial buffer, actions selected randomly
-    n_exploration_steps = 20000                     # total number of steps (including warm up) of exploration
-    eval_freq = 2000                                # interval in steps for evaluating models on tasks in the environment
+    n_warm_up_steps = 500 #256                      # number of steps to populate the initial buffer, actions selected randomly
+    n_exploration_steps = 15000 #2000               # total number of steps (including warm up) of exploration
+    eval_freq = 500 #2000                           # interval in steps for evaluating models on tasks in the environment
     data_buffer_size = n_exploration_steps + 1      # size of the data buffer (FIFO queue)
 
     # misc.
@@ -478,9 +479,18 @@ def evaluate_task(env, model, buffer, task, render, filename, record, save_eval_
 
 
 @ex.capture
-def evaluate_tasks(buffer, step_num, n_eval_episodes, evaluation_model_epochs, render, dump_dir, ant_coverage, _log, _run):
+def evaluate_tasks(buffer, step_num, n_eval_episodes, evaluation_model_epochs, render, dump_dir, ant_coverage, real_coverage, _log, _run):
     if ant_coverage:
         from envs.ant import rate_buffer
+        coverage = rate_buffer(buffer=buffer)
+        _run.log_scalar("coverage", coverage, step_num)
+        _run.result = coverage
+        _log.info(f"coverage: {coverage}")
+        return coverage
+
+    if real_coverage:
+        print("REAL!!!")
+        from envs.real_env import rate_buffer
         coverage = rate_buffer(buffer=buffer)
         _run.log_scalar("coverage", coverage, step_num)
         _run.result = coverage
