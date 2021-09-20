@@ -118,5 +118,18 @@ python main.py with max_explore env_name=MagellanAnt-v2 exploration_mode=reactiv
 python main.py with random_explore env_name=MagellanAnt-v2 env_noise_stdev=0.02 eval_freq=1500 checkpoint_frequency=1500 ant_coverage=True
 ```
 
+#### REAL
+
+* MAX:
+```
+python3 main.py with max_explore env_name=RealMax-v0  env_noise_stdev=0.02 eval_freq=100 n_warm_up_steps=100 n_exploration_steps=15000 real_coverage=True render=False omp_num_threads=2 model_train_freq=100
+```
+
+* Random Exploration:
+```
+python3 main.py with random_explore env_name=RealMax-v0  env_noise_stdev=0.02 eval_freq=100 n_warm_up_steps=100 n_exploration_steps=15000 real_coverage=True render=False omp_num_threads=2 model_train_freq=100
+```
+
+
 ## Magellan
 Magellan is the internal code name of the project inspired by life of [Ferdinand Magellan](https://en.wikipedia.org/wiki/Ferdinand_Magellan).
